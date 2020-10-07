@@ -9,8 +9,8 @@ import java.util.List;
 public class FunJump extends Jump {
     private List<Skydiver> skydivers;
 
-    public FunJump (String id, String dropZone, LocalDateTime startTime, String type, List<Skydiver> skydivers) {
-        super(id, dropZone, startTime, type);
+    public FunJump (String id, LocalDateTime startTime, String type, List<Skydiver> skydivers) {
+        super(id, startTime, type);
         this.skydivers = skydivers;
     }
     

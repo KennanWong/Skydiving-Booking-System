@@ -11,8 +11,8 @@ public class Tandem extends Jump {
     private Skydiver passenger;
     private Skydiver tandemMaster;
 
-    public Tandem(String id, String dropZone, LocalDateTime startTime, String type, Skydiver passenger, Skydiver tandemMaster) {
-        super(id, dropZone, startTime, type);
+    public Tandem(String id, LocalDateTime startTime, String type, Skydiver passenger, Skydiver tandemMaster) {
+        super(id, startTime, type);
         this.passenger = passenger;
         this.tandemMaster = tandemMaster;
     }

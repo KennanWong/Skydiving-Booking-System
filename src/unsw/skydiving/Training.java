@@ -9,8 +9,8 @@ public class Training extends Jump {
     private Skydiver trainee;
     private Skydiver instructor;
 
-    public Training (String id, String dropZone, LocalDateTime startTime, String type, Skydiver trainee, Skydiver instructor) {
-        super(id, dropZone, startTime, type);
+    public Training (String id, LocalDateTime startTime, String type, Skydiver trainee, Skydiver instructor) {
+        super(id, startTime, type);
         this.trainee = trainee;
         this.instructor = instructor;
     }

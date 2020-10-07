@@ -13,14 +13,13 @@ public class Jump {
     private LocalDateTime startTime;
     private String type;
 
-    public Jump(String id, String dropZone, LocalDateTime startTime, String type) {
+    public Jump(String id, LocalDateTime startTime, String type) {
         this.id = id;
-        this.dropZone = dropZone;
         this.startTime = startTime;
         this.type = type;
     }
 
-    public getId() {
+    public String getId() {
         return this.id;
     }
 }
