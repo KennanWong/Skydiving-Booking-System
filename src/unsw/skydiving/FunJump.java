@@ -12,6 +12,7 @@ public class FunJump extends Jump {
     public FunJump (String id, LocalDateTime startTime, String type, List<Skydiver> skydivers) {
         super(id, startTime, type);
         this.skydivers = skydivers;
+        super.setNumSkydivers(skydivers.size());
     }
     
 }

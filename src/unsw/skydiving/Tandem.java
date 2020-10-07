@@ -15,5 +15,6 @@ public class Tandem extends Jump {
         super(id, startTime, type);
         this.passenger = passenger;
         this.tandemMaster = tandemMaster;
+        super.setNumSkydivers(2);
     }
 }
