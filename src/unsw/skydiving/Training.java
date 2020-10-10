@@ -20,4 +20,12 @@ public class Training extends Jump {
         super.setNumSkydivers(2);
     }
 
+    public Skydiver getTrainee() {
+        return trainee;
+    }
+
+    public Skydiver getInstructor() {
+        return instructor;
+    }
+
 }
