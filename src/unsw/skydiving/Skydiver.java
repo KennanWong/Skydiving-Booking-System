@@ -2,9 +2,9 @@ package unsw.skydiving;
 
 import java.util.ArrayList;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Attributes.Name;
+
+
 
 
 
@@ -89,12 +89,9 @@ public class Skydiver {
         // 3. check if any of the end times of the flight interfere with this requested jump
         //    , i.e seeing debriefing or repacking times would stop them from begining this jump on that flight
 
-        LocalDateTime startTimeOfJump = jump.getStartTime();
-
         for (Jump bookedJump: jumps) {
             // Check if one of the previous booked jumps is occuring at the same time as the requested jump
             if (bookedJump.getStartTime() == jump.getStartTime()) {
-                System.out.println("A jump is occuring at the same time");
                 return false;
             } 
             LocalDateTime bookedStartTime = bookedJump.getFlight().getStartTime();
@@ -103,16 +100,16 @@ public class Skydiver {
             LocalDateTime requestedStartTime = flight.getStartTime();
             LocalDateTime requestedEndTime = getEndTimeOfJump(jump, flight);
            
-            if (!requestedStartTime.isBefore(bookedStartTime) && !requestedStartTime.isAfter(bookedEndTime)
-                || !requestedEndTime.isBefore(bookedStartTime) && !requestedEndTime.isAfter(bookedEndTime)){
-                System.out.println("Attempting to start or end a jump between an already booked jump");
+
+            if ((requestedStartTime.isAfter(bookedStartTime) && requestedStartTime.isBefore(bookedEndTime))
+                || (requestedEndTime.isAfter(bookedStartTime) && requestedEndTime.isBefore(bookedEndTime))
+                || (requestedStartTime.isEqual(bookedStartTime) || (requestedEndTime.isEqual(bookedEndTime)))){
                 return false;
             } 
             
 
             
         }          
-        System.out.println(skydiver + " is valid to jump");
         return true;
     }
 
@@ -136,6 +133,7 @@ public class Skydiver {
         if (!isPassenger && !licence.equals("student")) {
             endTime = endTime.plusMinutes(10);
         }
+
         return endTime;
         
     }

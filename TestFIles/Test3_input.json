@@ -1,0 +1,26 @@
+{ "command": "flight", "id": "flight1", "dropzone": "Picton", "starttime": "2007-12-02T10:15", "endtime": "2007-12-02T10:35", "maxload": 4 }
+{ "command": "flight", "id": "flight2", "dropzone": "Picton", "starttime": "2007-12-02T10:25", "endtime": "2007-12-02T10:40", "maxload": 7 }
+{ "command": "flight", "id": "flight3", "dropzone": "Picton", "starttime": "2007-12-02T10:40", "endtime": "2007-12-02T11:00", "maxload": 5 }
+{ "command": "flight", "id": "flight4", "dropzone": "Picton", "starttime": "2007-12-03T10:15", "endtime": "2007-12-03T10:35", "maxload": 4 }
+{ "command": "flight", "id": "flight5", "dropzone": "Picton", "starttime": "2007-12-03T10:25", "endtime": "2007-12-03T10:30", "maxload": 7 }
+{ "command": "flight", "id": "flight6", "dropzone": "Picton", "starttime": "2007-12-03T11:00", "endtime": "2007-12-03T11:30", "maxload": 7 }
+{ "command": "flight", "id": "flight7", "dropzone": "Lidcombe", "starttime": "2007-12-03T11:00", "endtime": "2007-12-03T11:30", "maxload": 5 }
+{ "command": "flight", "id": "flight8", "dropzone": "Moruya", "starttime": "2007-12-04T17:00", "endtime": "2007-12-04T17:10", "maxload": 5 }
+{ "command": "flight", "id": "flight9", "dropzone": "Picton", "starttime": "2007-12-04T16:00", "endtime": "2007-12-04T16:10", "maxload": 5 }
+{ "command": "skydiver", "skydiver": "Dean", "licence": "student"}
+{ "command": "skydiver", "skydiver": "Andrew", "licence": "licenced-jumper"}
+{ "command": "skydiver", "skydiver": "Ben", "licence": "instructor", "dropzone": "Picton"}
+{ "command": "skydiver", "skydiver": "Reece", "licence": "tandem-master", "dropzone": "Picton"}
+{ "command": "skydiver", "skydiver": "Chan", "licence": "student"}
+{ "command": "skydiver", "skydiver": "Eric", "licence": "licenced-jumper", }
+{ "command": "skydiver", "skydiver": "Kennan", "licence": "instructor", "dropzone": "Picton"}
+{ "command": "skydiver", "skydiver": "Kevin", "licence": "tandem-master", "dropzone": "Picton"}
+
+
+
+{ "command": "request", "type": "tandem", "id": "Dean goes on a tandem flight with kennan", "starttime": "2007-12-03T10:20", "passenger": "Dean" }
+{ "command": "change", "type": "fun", "id": "Dean goes on a tandem flight with kennan", "starttime": "2007-12-03T10:25", "skydivers": ["Dean", "Chan", "Eric", "Reece"] }
+{ "command": "request", "type": "fun", "id": "Kennan would like to go on a fun jump by himself", "starttime": "2007-12-03T10:25", "skydivers": ["Kennan"] }
+
+
+{ "command": "jump-run", "id": "flight5" }

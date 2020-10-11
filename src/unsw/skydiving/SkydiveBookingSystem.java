@@ -8,7 +8,6 @@ import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import jdk.nashorn.api.scripting.JSObject;
 
 
 /**
@@ -30,7 +29,7 @@ public class SkydiveBookingSystem {
      * Constructs a skydive booking system. Initially, the system contains no flights, skydivers, jumps or dropzones
      */
     public SkydiveBookingSystem() {
-        // TODO Auto-generated constructor stub
+        
         this.skydivers = new ArrayList<>();
         this.flights = new ArrayList<>();
         this.jumps = new ArrayList<>();
@@ -157,24 +156,42 @@ public class SkydiveBookingSystem {
 
                 List<Flight> funFlights = getAvailableFlight(startTime, funJumpers.size(), "fun");
                 if (funFlights == null) {
-                    System.out.println("could not find a flight");
+                   
                     return null;
                 }
-                Flight funFlight = funFlights.get(0);
-
-                for (Skydiver skydiver: funJumpers) {
-                    if (!skydiver.isValidToJump(newFunJump, funFlight)) {
-                        System.out.println("A jumper is not valid to jump");
-                        return null;
-                    }
-                }
-
+                Flight funFlight = null;
                 for (Flight availableFun: funFlights) {
-                    if (availableFun.getVacancies() < funFlight.getVacancies()) {
-                        funFlight = availableFun;
-                        System.out.println("found a better flight");
+                    boolean allSkydiversValid = true;
+                    for (Skydiver skydiver: funJumpers) {
+                        if (!skydiver.isValidToJump(newFunJump, availableFun)) {
+                            allSkydiversValid = false;
+                        }
                     }
+                    if (allSkydiversValid) {
+                       
+                        if (funFlight == null) {
+                            funFlight = availableFun;
+                            
+                        } 
+                        
+                        if (funFlight != null) {
+                            
+                            if (!funFlight.getStartTime().isEqual(availableFun.getStartTime())) {
+                                break;
+                            } if (availableFun.getVacancies() > funFlight.getVacancies()) {      
+                               
+                                funFlight = availableFun;
+                            } 
+                        }
+                        
+                    } 
+
                 }
+
+                if (funFlight == null) {
+                    return null;
+                }
+
                 this.jumps.add(newFunJump);             // add the jump the bookjing systems booked jumps
                 funFlight.addJump(newFunJump);          // add this jump to the booked flight
                 newFunJump.setFlight(funFlight);        // add the flight the jump is booked on
@@ -189,27 +206,38 @@ public class SkydiveBookingSystem {
 
                 List<Flight> trainingFlights = getAvailableFlight(startTime, 2, "training");
                 if (trainingFlights == null) {
-                    System.out.println("could not find a flight");
+
                     return null;
                 }
 
-                Flight trainingFlight = trainingFlights.get(0);
+                Flight trainingFlight = null;
                 Skydiver instructor = null;
                 for (Flight availableTraining: trainingFlights) {
+
                     if (!trainee.isValidToJump(newTrainingJump, availableTraining)) {
-                        System.out.println("Jumper is not valid to jump");
+
                         return null;
                     }
                     // for each available flight, check if we are able to get an instructor
-                    instructor = getSkydiver("instructor", newTrainingJump, availableTraining, trainee);
-                    if (instructor != null && availableTraining.getVacancies() < trainingFlight.getVacancies()) {
-                        trainingFlight = availableTraining;
-                        System.out.println("found a better flight");
+                    Skydiver tmpInstructor = getSkydiver("instructor", newTrainingJump, availableTraining, trainee);
+                    if (tmpInstructor != null) {
+                        instructor = tmpInstructor;
                     } 
+
+                    if (trainingFlight == null && instructor != null) {
+                        trainingFlight = availableTraining;
+                    } 
+                    if (trainingFlight != null) {
+                        if (!trainingFlight.getStartTime().isEqual(availableTraining.getStartTime())){
+                            break;
+                        } else if (instructor!= null && availableTraining.getVacancies() < trainingFlight.getVacancies()) {
+                            trainingFlight = availableTraining;
+                        }
+                    }
                 }
 
-                if (instructor == null) {
-                    System.out.println("unable to find an instructor");
+                if (trainingFlight == null) {
+
                     return null;
                 } 
                 newTrainingJump.setInstructor(instructor);      // set the instructor
@@ -226,29 +254,41 @@ public class SkydiveBookingSystem {
 
                 List<Flight> tandemFlights = getAvailableFlight(startTime, 2, "tandem");
                 if (tandemFlights == null) {
-                    System.out.println("could not find a flight");
+
                     return null;
                 }
 
-                Flight tandemFlight = tandemFlights.get(0);
+                Flight tandemFlight = null;
                 Skydiver tandemMaster = null;
                 for (Flight availableTandem: tandemFlights) {
                     if (!passenger.isValidToJump(newTandemJump, availableTandem)) { 
-                        System.out.println("passenger is not valid to jump");
+
                         return null;
                     }
                     // for each available flight, check if we are able to get an instructor
-                    tandemMaster = getSkydiver("tandem-master", newTandemJump, availableTandem, passenger);
-                    if (tandemMaster!= null && availableTandem.getVacancies() < tandemFlight.getVacancies()) {
-                        trainingFlight = availableTandem;
+                    Skydiver tmpTandemMaster = getSkydiver("tandem-master", newTandemJump, availableTandem, passenger);
+                    if (tmpTandemMaster != null) {
+                        tandemMaster = tmpTandemMaster;
+                    }
+                    if (tandemFlight == null && tandemMaster != null) {
+                        tandemFlight = availableTandem;
                     } 
-                }
+                    if (tandemFlight != null) {
+                        if (!tandemFlight.getStartTime().isEqual(availableTandem.getStartTime())){
 
-                if (tandemMaster == null) {
-                    System.out.println("unable to find tandem master");
-                    return null;
+                            break;
+                        } else if (tandemMaster!= null && availableTandem.getVacancies() < tandemFlight.getVacancies()) {
+                            trainingFlight = availableTandem;
+                        }
+                    }
+                    
                 }
                 
+                if (tandemFlight == null ) {
+
+                    return null;
+                } 
+
                 newTandemJump.setTandemMaster(tandemMaster);    // set tandem master 
                 this.jumps.add(newTandemJump);                  // add the jump to the booking systems list of jumps
                 tandemFlight.addJump(newTandemJump);            // add this jump to the booked flight
@@ -381,10 +421,10 @@ public class SkydiveBookingSystem {
 
         JSONArray flightRun = new JSONArray();
         for (Jump jump: listOfJump) {
-            List <Skydiver> listOfSkydivers = jump.getSkydivers();
             JSONObject jumpJSON = new JSONObject();
             switch (jump.getType()) {
                 case "fun":
+                    List <Skydiver> listOfSkydivers = jump.getSkydivers();
                     for (Skydiver skydiver: listOfSkydivers) {
                         jumpJSON.append("skydivers", skydiver.getName());
                     }
@@ -483,12 +523,8 @@ public class SkydiveBookingSystem {
         
         List<Flight> possibleFLights = new ArrayList<>();
         for (Flight flight: flights) {
-            if (!flight.getStartTime().isBefore(earliestFlight) && earliestFlight.getDayOfYear()==flight.getStartTime().getDayOfYear()) {
-                System.out.println("Flight: "+ flight.getId() + ", vacancies are: " + flight.getVacancies() + ". Attempting to add: "+ numParticipants);
-                if ((possibleFLights.size() == 0 || flight.getStartTime() == possibleFLights.get(0).getStartTime()) && flight.getVacancies() >= numParticipants) {
-                    possibleFLights.add(flight);
-                } 
-                
+            if (!flight.getStartTime().isBefore(earliestFlight) && earliestFlight.getDayOfYear()==flight.getStartTime().getDayOfYear() && flight.getVacancies() >= numParticipants) {
+                possibleFLights.add(flight);
             }
         }
         if (possibleFLights.size() == 0) {
@@ -526,28 +562,22 @@ public class SkydiveBookingSystem {
      */
     public Skydiver getSkydiver(String licence, Jump jump, Flight flight, Skydiver callee) {
         Skydiver tmp = null;
-        System.out.println("Flight: " + flight.getId() + ", Dropzone: " + flight.getDropzone());
         for (Skydiver skydiver: this.skydivers) {
-            System.out.println("Skydiver: " + skydiver.getName() + ", DropZone: " + skydiver.getDropzone());
-            if (licenceToInt(skydiver.getLicence()) >= licenceToInt(licence) && 
-                (tmp == null || skydiver.getNumJumpsOnDay(jump.getStartTime()) < tmp.getNumJumpsOnDay(jump.getStartTime()))     // seeing that we are getting a skydivier with the least
-                                                                                // number of jumps
+            if (licenceToInt(skydiver.getLicence()) >= licenceToInt(licence) 
                 && skydiver.isValidToJump(jump, flight)                         // ensure skydiver valid to jump
                 && skydiver.getDropzone() != null                               // ensure that the skydiver has a dropzone set
                 && !skydiver.getName().equals(callee.getName())) {              // if the skydiver is not the callee
-                if (skydiver.getDropzone().equals(flight.getDropzone())) {
+                if (skydiver.getDropzone().equals(flight.getDropzone()) 
+                    && (tmp == null || skydiver.getNumJumpsOnDay(jump.getStartTime()) < tmp.getNumJumpsOnDay(jump.getStartTime()))) {     // seeing that we are getting a skydivier with the least
+                                                                                                                                          // number of jumps
                     tmp = skydiver;
-                    System.out.println("Found " + licence + " " + tmp.getName());
-                    break;
                 } 
             }
         }
 
         if (tmp == null) {
-            System.out.println("Unable to get a " + licence + " skydiver");
             return null;
         }
-        
         return tmp;
     }
 

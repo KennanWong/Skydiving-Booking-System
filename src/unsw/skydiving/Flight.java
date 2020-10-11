@@ -1,10 +1,9 @@
 package unsw.skydiving;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.*;
 
 
 public class Flight {
@@ -14,7 +13,6 @@ public class Flight {
     private LocalDateTime endTime;
     private int maxLoad;
     private int vacancies;
-    private List<Skydiver> skydivers;
     private List<Jump> jumps;
 
     public Flight(String id, String dropzone, LocalDateTime startTime, LocalDateTime endTime, int maxLoad) {
@@ -24,7 +22,6 @@ public class Flight {
         this.endTime = endTime;
         this.maxLoad = maxLoad;
         this.vacancies = maxLoad;
-        this.skydivers = new ArrayList<>();
         this.jumps = new ArrayList<>();
     }
 
@@ -95,7 +92,7 @@ public class Flight {
         this.vacancies = this.vacancies - jump.getNumSkydivers();
         jump.setFlight(this);
         jump.setDropzone(this.dropzone);
-        System.out.println("Flight: "+ id + ", vacancies are: " + vacancies);
+
     }
 
     public void removeJump(Jump jump) {
